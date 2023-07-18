@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const startGame = (name: string) => {
-  const url = "http://localhost:8000/conductor/create_game/"
+export const startGame = (gameAPIEndpoint: string, name: string) => {
+  const url = gameAPIEndpoint + "/conductor/create_game/"
   const data = {
     "name": name,
     "min_players": 3,

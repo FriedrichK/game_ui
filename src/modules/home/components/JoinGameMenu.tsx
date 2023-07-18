@@ -34,10 +34,11 @@ const GamesList = ({games}: GamesListProps) => {
 }
 
 interface JoinGameMenuProps {
+  gameAPIEndpoint: string,
   gamePage: GameDataPage
 }
 
-const JoinGameMenu = ({gamePage}: JoinGameMenuProps) => {
+const JoinGameMenu = ({gameAPIEndpoint, gamePage}: JoinGameMenuProps) => {
   const [dataPage, setDataPage] = useState<GameDataPage>(gamePage)
 
   if (!gamePage) {
@@ -46,11 +47,8 @@ const JoinGameMenu = ({gamePage}: JoinGameMenuProps) => {
 
   const handleChange = (evt: any, page: Number) => {
     fetch(
-      "http://localhost:8000/api/games/?page_size=10&format=json" + `&page=${page}`,
-      {
-        cache: "no-store",
-        //mode: "no-cors"
-      }
+      gameAPIEndpoint + "/api/games/?page_size=10&format=json" + `&page=${page}`,
+      {cache: "no-store"}
     )
       .then(response => response.json())
       .then(data => setDataPage(data));

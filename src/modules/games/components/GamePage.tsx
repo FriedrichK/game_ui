@@ -24,11 +24,12 @@ const GameHeader = ({id, name}: GameHeaderProps) => {
 };
 
 interface GamePageProps {
+  gameAPIEndpoint: string,
   gameData: GameData|null,
   gameID: string
 }
 
-const GamePage = ({gameData, gameID}: GamePageProps) => {
+const GamePage = ({gameAPIEndpoint, gameData, gameID}: GamePageProps) => {
   if (!gameData) {
     return (
       <div>game not found</div>

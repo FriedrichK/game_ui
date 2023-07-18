@@ -9,25 +9,27 @@ import {GameDataPage} from "../../games/interfaces/game";
 
 interface JoinGamesMenuProps {
   className?: string,
+  gameAPIEndpoint: string,
   gamePage: GameDataPage|null
 }
 
-const JoinGamesMenu = ({gamePage}: JoinGamesMenuProps) => {
+const JoinGamesMenu = ({gameAPIEndpoint, gamePage}: JoinGamesMenuProps) => {
   if (!gamePage) {
     return null;
   }
   return (
     <Card style={{marginBottom: "16px", padding: "16px"}}>
-      <JoinGameMenu gamePage={gamePage} />
+      <JoinGameMenu gameAPIEndpoint={gameAPIEndpoint} gamePage={gamePage} />
     </Card>
   );
 };
 
 interface NewGameMenuProps {
-  className?: string
+  className?: string,
+  gameAPIEndpoint: string
 }
 
-const NewGameMenu = ({className}: NewGameMenuProps) => {
+const NewGameMenu = ({className, gameAPIEndpoint}: NewGameMenuProps) => {
   const [gameID, setGameID] = useState<string|null>(null);
 
   const handleGameCreation = (gameID: string) => {
@@ -35,9 +37,13 @@ const NewGameMenu = ({className}: NewGameMenuProps) => {
   }
 
   const content = gameID ? (
-    <WaitForGameDisplay gameID={gameID} />
+    <WaitForGameDisplay
+      gameAPIEndpoint={gameAPIEndpoint}
+      gameID={gameID} />
   ) : (
-    <CreateNewGameForm handleGameCreation={handleGameCreation} />
+    <CreateNewGameForm
+      gameAPIEndpoint={gameAPIEndpoint}
+      handleGameCreation={handleGameCreation} />
   );
 
   return (
@@ -48,16 +54,17 @@ const NewGameMenu = ({className}: NewGameMenuProps) => {
 };
 
 interface HomePageContentProps {
+  gameAPIEndpoint: string,
   gamePage: GameDataPage|null
 }
 
-const HomePageContent = ({gamePage}: HomePageContentProps) => {
+const HomePageContent = ({gameAPIEndpoint, gamePage}: HomePageContentProps) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={3} lg={4} />
       <Grid item xs={12} md={6} lg={4}>
-        <JoinGamesMenu gamePage={gamePage} />
-        <NewGameMenu />
+        <JoinGamesMenu gameAPIEndpoint={gameAPIEndpoint} gamePage={gamePage} />
+        <NewGameMenu gameAPIEndpoint={gameAPIEndpoint} />
       </Grid>
       <Grid item xs={12} md={3} lg={4} />
     </Grid>

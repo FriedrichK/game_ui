@@ -24,13 +24,14 @@ export const useInterval = (callback: Function, delay: number|null) => {
 }
 
 interface WaitForGameDisplayProps {
+  gameAPIEndpoint: string,
   gameID: string
 }
 
-const WaitForGameDisplay = ({gameID}: WaitForGameDisplayProps) => {
+const WaitForGameDisplay = ({gameAPIEndpoint, gameID}: WaitForGameDisplayProps) => {
   const router = useRouter();
   useInterval(() => {
-    getGame(gameID)
+    getGame(gameAPIEndpoint, gameID)
       .then(() => {
         router.push("/games/" + gameID);
       })

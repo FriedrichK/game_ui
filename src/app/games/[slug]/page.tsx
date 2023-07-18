@@ -9,15 +9,21 @@ interface PageProps {
 }
 
 const Page = async ({params}: PageProps) => {
+
+  const gameAPIEndpoint: string = process.env.GAME_API_ENDPOINT || ""
+
   let data: GameData|null = null;
   try {
-    const res = await fetch('http://localhost:8000/api/games/' + params.slug);
+    const res = await fetch(gameAPIEndpoint + '/api/games/' + params.slug);
     data = await res.json();
   } catch(err) {
     console.error(err);
   }
   return (
-    <GamePage gameID={params.slug} gameData={data} />
+    <GamePage
+      gameAPIEndpoint={gameAPIEndpoint}
+      gameID={params.slug}
+      gameData={data} />
   );
 }
 

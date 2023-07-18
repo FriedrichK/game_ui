@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const getGame = (gameID: string) => {
-  const url = "http://localhost:8000/api/games/" + gameID
+export const getGame = (gameAPIEndpoint: string, gameID: string) => {
+  const url = gameAPIEndpoint + "/api/games/" + gameID
   const headers = {
     "accept": "application/json",
     "content-type": "application/json",

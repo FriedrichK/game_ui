@@ -3,10 +3,11 @@ import {useFormik} from "formik";
 import {startGame} from "../../games/actions/startGame";
 
 interface CreateNewGameForm {
+  gameAPIEndpoint: string,
   handleGameCreation: Function
 }
 
-const CreateNewGameForm = ({handleGameCreation}: CreateNewGameForm) => {
+const CreateNewGameForm = ({gameAPIEndpoint, handleGameCreation}: CreateNewGameForm) => {
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -14,7 +15,7 @@ const CreateNewGameForm = ({handleGameCreation}: CreateNewGameForm) => {
       password: '',
     },
     onSubmit: values => {
-      startGame(values.name)
+      startGame(gameAPIEndpoint, values.name)
         .then((response) => {
           handleGameCreation && handleGameCreation(response.data.game_id);
         });
