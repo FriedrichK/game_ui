@@ -1,6 +1,7 @@
 import React from "react";
 import GamePage from "../../../modules/games/components/GamePage";
 import {GameData} from "../../../modules/games/interfaces/game";
+import {cookies} from "next/headers";
 
 interface PageProps {
   params: {
@@ -8,13 +9,20 @@ interface PageProps {
   }
 }
 
-const Page = async ({params}: PageProps) => {
-
+const Page = async (props: PageProps) => {
   const gameAPIEndpoint: string = process.env.GAME_API_ENDPOINT || ""
+
+  const gameID: string = props.params.slug;
+
+  const cookieStore = cookies();
+  const player = cookieStore.get(`player_${gameID}`);
 
   let data: GameData|null = null;
   try {
-    const res = await fetch(gameAPIEndpoint + '/api/games/' + params.slug);
+    const res = await fetch(
+      gameAPIEndpoint + '/api/games/' + gameID,
+      {next: {revalidate: 60}}
+    );
     data = await res.json();
   } catch(err) {
     console.error(err);
@@ -22,8 +30,9 @@ const Page = async ({params}: PageProps) => {
   return (
     <GamePage
       gameAPIEndpoint={gameAPIEndpoint}
-      gameID={params.slug}
-      gameData={data} />
+      gameID={props.params.slug}
+      gameData={data}
+      player={player} />
   );
 }
 

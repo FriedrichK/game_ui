@@ -7,14 +7,33 @@ interface GamesListItemProps {
   id: string,
   key?: any,
   name: string
+  started?: string,
+  failed?: string,
+  ended?: string
 }
 
-const GamesListItem = ({id, key, name}: GamesListItemProps) => {
+interface ChipStyleProps {
+  backgroundColor?: string,
+  color?: string
+  cursor?: string,
+  width?: string
+}
+
+const GamesListItem = ({id, key, name, started, failed, ended}: GamesListItemProps) => {
+  const chipStyle: ChipStyleProps = {
+    cursor: "pointer",
+    width: "100%"
+  };
+  if (failed) {
+    chipStyle.backgroundColor = "#8B0000";
+    chipStyle.color = "#fff";
+  }
+
   const link = `/games/${id}`;
   return (
     <div style={{paddingBottom: "4px", paddingTop: "4px"}}>
       <Link href={link}>
-        <Chip label={name} style={{width: "100%"}} />
+        <Chip label={name} style={chipStyle} />
       </Link>
     </div>
   );
@@ -25,7 +44,16 @@ interface GamesListProps {
 }
 
 const GamesList = ({games}: GamesListProps) => {
-  const gameItems = (games || []).map(item => <GamesListItem key={item.id} id={item.id} name={item.name} />)
+  const gameItems = (games || []).map(item => (
+    <GamesListItem
+      key={item.id}
+      id={item.id}
+      name={item.name}
+      started={item.started}
+      failed={item.failed}
+      ended={item.ended}
+    />
+  ))
   return (
     <div style={{paddingBottom: "8px", paddingTop: "8px"}}>
       {gameItems}
