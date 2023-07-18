@@ -9,10 +9,13 @@ import {GameDataPage} from "../../games/interfaces/game";
 
 interface JoinGamesMenuProps {
   className?: string,
-  gamePage: GameDataPage
+  gamePage: GameDataPage|null
 }
 
 const JoinGamesMenu = ({gamePage}: JoinGamesMenuProps) => {
+  if (!gamePage) {
+    return null;
+  }
   return (
     <Card style={{marginBottom: "16px", padding: "16px"}}>
       <JoinGameMenu gamePage={gamePage} />
@@ -45,7 +48,7 @@ const NewGameMenu = ({className}: NewGameMenuProps) => {
 };
 
 interface HomePageContentProps {
-  gamePage: GameDataPage
+  gamePage: GameDataPage|null
 }
 
 const HomePageContent = ({gamePage}: HomePageContentProps) => {
