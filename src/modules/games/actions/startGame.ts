@@ -5,7 +5,7 @@ export const startGame = (gameAPIEndpoint: string, name: string) => {
   const data = {
     "name": name,
     "min_players": 3,
-    "max_players": 10
+    "max_players": 5
   };
   const headers = {
     "accept": "application/json",
